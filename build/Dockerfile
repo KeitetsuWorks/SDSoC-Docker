@@ -25,6 +25,7 @@ RUN dpkg --add-architecture i386 && \
     apt-get install -y libgtk2.0-0:i386 dpkg-dev:i386 && \
     apt-get install -y libcanberra-gtk-module && \
     apt-get install -y libxtst6 && \
+    apt-get install -y lsb-release && \
     apt-get clean && \
     apt-get autoclean && \
     ln -s /usr/bin/make /usr/bin/gmake && \
