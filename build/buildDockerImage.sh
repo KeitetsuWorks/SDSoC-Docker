@@ -11,5 +11,5 @@
 ##
 
 docker build \
-    --tag keitetsu/sdsoc_base \
+    --tag keitetsu/sdsoc-docker \
     .

@@ -17,15 +17,17 @@ LABEL maintainer="KeitetsuWorks@users.noreply.github.com"
 RUN dpkg --add-architecture i386 && \
     apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y sudo && \
+    apt-get install -y locales && \
     apt-get install -y vim && \
     apt-get install -y git && \
     apt-get install -y libc6:i386 libncurses5:i386 libstdc++6:i386 && \
     apt-get install -y g++-multilib && \
     apt-get install -y libgtk2.0-0:i386 dpkg-dev:i386 && \
-    apt-get install -y libcanberra-gtk-module && \
     apt-get install -y libxtst6 && \
+    apt-get install -y libcanberra-gtk-module && \
     apt-get install -y lsb-release && \
+    apt-get install -y unzip && \
+    apt-get install -y fonts-noto-cjk && \
     apt-get clean && \
     apt-get autoclean && \
     ln -s /usr/bin/make /usr/bin/gmake && \
@@ -34,17 +36,6 @@ RUN dpkg --add-architecture i386 && \
     rm -rf /var/tmp/* && \
     rm -rf /var/cache/* && \
     rm -rf /var/lib/apt/lists/*
-
-# 一般ユーザ名を設定
-ENV USER_NAME=developer
-
-# sudoを使用できるようにする
-RUN echo "${USER_NAME} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/${USER_NAME}
-
-# 一般ユーザがユーザ/グループを追加できるようにする
-# entrypoint.sh内でパーミッションを元に戻す
-RUN chmod u+s /usr/sbin/useradd && \
-    chmod u+s /usr/sbin/groupadd
 
 # vim settings (optional)
 RUN cd ~ && \
@@ -59,7 +50,7 @@ RUN cd ~ && \
     cp -r ~/.vim /etc/skel && \
     cp ~/.vimrc /etc/skel
 
-# ENTRYPOINT settings
-COPY entrypoint.sh /usr/sbin/entrypoint.sh
-ENTRYPOINT ["/usr/sbin/entrypoint.sh"]
+# locale settings
+RUN locale-gen en_US.UTF-8
+ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
 
